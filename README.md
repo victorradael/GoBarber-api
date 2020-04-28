@@ -2,7 +2,7 @@
 
   <div style="background-color: #333">
 
-![GoBarber Logo](./src/assets/logo.svg)
+  <img src="./src/assets/logo.svg" alt="GoBarberLogo"/>
 
   </div>
 
