@@ -1,6 +1,4 @@
-<center>
-
-  <div style="background-color: #333">
+  <div align="center" style="background-color: #333">
 
   <img src="./src/assets/logo.svg" alt="GoBarberLogo"/>
 
@@ -9,5 +7,3 @@
 ---
 
 ### Building 🔨
-
-</center>
