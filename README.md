@@ -1,6 +1,6 @@
-<div align="center" background-color= "#333">
+<div align="center" >
 
-<div style="background: #333;">
+<div style="background: url(./src/assets/sign-in-background.png) no-repeat center; padding: 24px;">
 
 ![GoBarber Logo](./src/assets/logo.svg)
 
@@ -10,4 +10,4 @@
 
 ### Building 🔨
 
-  </div>
+</div>
