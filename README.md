@@ -1,9 +1,13 @@
-  <div align="center" style="background-color: #333">
+<div align="center" background-color= "#333">
 
-  <img src="./src/assets/logo.svg" alt="GoBarberLogo"/>
+<div style="background: #333;">
 
-  </div>
+![GoBarber Logo](./src/assets/logo.svg)
+
+</div>
 
 ---
 
 ### Building 🔨
+
+  </div>
