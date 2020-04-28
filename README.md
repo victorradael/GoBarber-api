@@ -1,4 +1,4 @@
-<div style="text-align: center">
+<center>
 
   <div style="background-color: #333">
 
@@ -10,4 +10,4 @@
 
 ### Building 🔨
 
-</div>
+</center>
