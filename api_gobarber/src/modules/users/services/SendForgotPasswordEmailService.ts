@@ -5,6 +5,7 @@ import IMailProvider from '@shared/container/providers/MailProvider/models/IMail
 
 import AppError from '@shared/error/AppError';
 import { injectable, inject } from 'tsyringe';
+import UserToken from '../infra/typeorm/entities/UserToken';
 
 interface IRequest {
   email: string;
@@ -29,8 +30,11 @@ export default class SendForgotPasswordEmailService {
       throw new AppError('User does not exist');
     }
 
-    await this.userTokensRepository.generate(user.id);
+    const { token } = await this.userTokensRepository.generate(user.id);
 
-    this.mailProvider.sendMail(email, 'Pedido de recuperação de senha');
+    await this.mailProvider.sendMail(
+      email,
+      `Pedido de recuperação de senha: ${token}`
+    );
   }
 }
