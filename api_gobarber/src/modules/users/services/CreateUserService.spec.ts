@@ -5,15 +5,17 @@ import FakeHasProvider from '@modules/users/providers/HashProvider/fakes/FakeHas
 import CreateUserService from '@modules/users/services/CreateUserService';
 import AppError from '@shared/error/AppError';
 
-describe('CreateUser', () => {
-  it('should be able to create a new user', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHasProvider();
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider
-    );
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHasProvider;
+let createUser: CreateUserService;
 
+describe('CreateUser', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHasProvider();
+    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
+  });
+  it('should be able to create a new user', async () => {
     const user = await createUser.execute({
       name: 'testador',
       email: 'testador@teste.com',
@@ -26,13 +28,6 @@ describe('CreateUser', () => {
   });
 
   it('should not be able to create a new user with same email from another', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHasProvider();
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider
-    );
-
     await createUser.execute({
       name: 'testador',
       email: 'testador@teste.com',
