@@ -3,13 +3,12 @@ import 'reflect-metadata';
 import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
-import CreateUserService from '@modules/users/services/CreateUserService';
+
 import AppError from '@shared/error/AppError';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
 let authenticateUser: AuthenticateUserService;
-let createUser: CreateUserService;
 
 describe('AuthenticateUser', () => {
   beforeEach(() => {
@@ -21,9 +20,7 @@ describe('AuthenticateUser', () => {
     );
   });
   it('should be able to authenticate', async () => {
-    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
-
-    const user = await createUser.execute({
+    const user = await fakeUsersRepository.create({
       name: 'testador',
       email: 'testador@teste.com',
       password: '123teste',
@@ -48,9 +45,7 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate with wrong password', async () => {
-    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
-
-    await createUser.execute({
+    const user = await fakeUsersRepository.create({
       name: 'testador',
       email: 'testador@teste.com',
       password: '123teste',
