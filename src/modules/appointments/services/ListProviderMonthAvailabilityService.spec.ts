@@ -15,6 +15,8 @@ describe('ListProviderMonthAvailability', () => {
     );
   });
   it('should be able to list the month availability from provider', async () => {
+    jest.useFakeTimers().setSystemTime(new Date(2020, 4, 10, 12));
+
     await fakeAppointmentsRepository.create({
       provider_id: 'provider_id',
       user_id: 'user',

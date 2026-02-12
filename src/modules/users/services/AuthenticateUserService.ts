@@ -1,4 +1,5 @@
-import { sign } from 'jsonwebtoken';
+import { sign, Secret, SignOptions } from 'jsonwebtoken';
+
 import { injectable, inject } from 'tsyringe';
 
 import User from '@modules/users/infra/typeorm/entities/User';
@@ -24,7 +25,7 @@ class AuthenticateUserService {
     private userRepository: IUsersRepository,
     @inject('HashProvider')
     private hashProvider: IHashProvider
-  ) {}
+  ) { }
   public async execute({ email, password }: IRequest): Promise<IResponse> {
     const user = await this.userRepository.findByEmail(email);
 
@@ -43,10 +44,10 @@ class AuthenticateUserService {
 
     const { secret, expiresIn } = authConfig.jwt;
 
-    const token = sign({}, secret, {
+    const token = sign({}, secret as Secret, {
       subject: user.id,
       expiresIn,
-    });
+    } as SignOptions);
 
     return {
       user,
