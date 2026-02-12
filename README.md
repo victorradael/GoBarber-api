@@ -1,4 +1,55 @@
-## ToDo
+# GoBarber API
+
+GoBarber is a scheduling application for barber shops. This API serves the backend functionality, including user authentication, appointment scheduling, and provider availability.
+
+## 🚀 Technologies
+
+- Node.js
+- TypeScript
+- Express
+- TypeORM (v0.3)
+- PostgreSQL
+- MongoDB
+- Redis
+- Docker
+- AWS SDK v3 (S3, SES)
+
+## 🛠️ Getting Started
+
+### Prerequisites
+
+- Docker & Docker Compose
+- Node.js (v20+)
+- Yarn
+
+### 🐳 Running with Docker (Recommended)
+
+1. Create a `.env` file from the example:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Start the services:
+   ```bash
+   docker compose up -d
+   ```
+
+The API will be available at `http://localhost:3333`.
+
+### 📚 API Documentation
+
+Swagger documentation is available at:
+`http://localhost:3333/api-docs`
+
+### 🧪 Running Tests
+
+```bash
+yarn test
+```
+
+## 📝 Requirements (Legacy)
+
+
 
 ---
 
