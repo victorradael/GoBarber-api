@@ -1,18 +1,20 @@
 import fs from 'fs';
 import path from 'path';
 import mime from 'mime';
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 
 import uploadConfig from '@config/upload';
-import aws, { S3 } from 'aws-sdk';
 import IStorageProvider from '../models/IStorageProvider';
 
 export default class S3StorageProvider implements IStorageProvider {
-  private client: S3;
+  private client: S3Client;
+
   constructor() {
-    this.client = new aws.S3({
+    this.client = new S3Client({
       region: process.env.AWS_DEFAULT_REGION,
     });
   }
+
   public async saveFile(file: string): Promise<string> {
     const originalPath = path.resolve(uploadConfig.tmpFolder, file);
 
@@ -22,17 +24,17 @@ export default class S3StorageProvider implements IStorageProvider {
       throw new Error('File not found!');
     }
 
-    const fileContent = fs.promises.readFile(originalPath);
+    const fileContent = await fs.promises.readFile(originalPath);
 
-    this.client
-      .putObject({
-        Bucket: uploadConfig.config.aws.bucket,
-        Key: file,
-        ACL: 'public-read',
-        Body: fileContent,
-        ContentType,
-      })
-      .promise();
+    const command = new PutObjectCommand({
+      Bucket: uploadConfig.config.aws.bucket,
+      Key: file,
+      ACL: 'public-read',
+      Body: fileContent,
+      ContentType,
+    });
+
+    await this.client.send(command);
 
     await fs.promises.unlink(originalPath);
 
@@ -40,11 +42,11 @@ export default class S3StorageProvider implements IStorageProvider {
   }
 
   public async deleteFile(file: string): Promise<void> {
-    await this.client
-      .deleteObject({
-        Bucket: uploadConfig.config.aws.bucket,
-        Key: file,
-      })
-      .promise();
+    const command = new DeleteObjectCommand({
+      Bucket: uploadConfig.config.aws.bucket,
+      Key: file,
+    });
+
+    await this.client.send(command);
   }
 }
