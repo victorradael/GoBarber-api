@@ -1,13 +1,15 @@
-import UserToken from '@modules/users/infra/typeorm/entities/UserToken';
+import { Repository } from 'typeorm';
+import { PostgresDataSource } from '@shared/infra/typeorm/data-sources';
+
+import UserToken from '../entities/UserToken';
 import IUserTokensRepository from '@modules/users/repositories/IUserTokensRepository';
 
-import { getRepository, Repository } from 'typeorm';
 
 class UserTokensRepository implements IUserTokensRepository {
   private ormRepository: Repository<UserToken>;
 
   constructor() {
-    this.ormRepository = getRepository(UserToken);
+    this.ormRepository = PostgresDataSource.getRepository(UserToken);
   }
 
   public async findByToken(token: string): Promise<UserToken | undefined> {
@@ -15,7 +17,7 @@ class UserTokensRepository implements IUserTokensRepository {
       where: { token },
     });
 
-    return userToken;
+    return userToken || undefined;
   }
 
   public async generate(user_id: string): Promise<UserToken> {

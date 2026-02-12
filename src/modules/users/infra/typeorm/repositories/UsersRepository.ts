@@ -1,26 +1,32 @@
-import User from '@modules/users/infra/typeorm/entities/User';
+import { Repository, Not } from 'typeorm';
+import { PostgresDataSource } from '@shared/infra/typeorm/data-sources';
+
+import User from '../entities/User';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
-
-import { getRepository, Repository, Not } from 'typeorm';
 import IFindAllProvidersDTO from '@modules/users/dtos/IFindAllProvidersDTO';
 
 class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>;
 
   constructor() {
-    this.ormRepository = getRepository(User);
+    this.ormRepository = PostgresDataSource.getRepository(User);
   }
 
   public async findById(id: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne(id);
+    const user = await this.ormRepository.findOne({
+      where: { id },
+    });
 
-    return user;
+    return user || undefined;
   }
-  public async findByEmail(email: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne({ where: { email } });
 
-    return user;
+  public async findByEmail(email: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne({
+      where: { email },
+    });
+
+    return user || undefined;
   }
 
   public async findAllProviders({

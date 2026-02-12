@@ -1,4 +1,5 @@
-import { getMongoRepository, MongoRepository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
+import { MongoDataSource } from '@shared/infra/typeorm/data-sources';
 
 import Notification from '@modules/notifications/infra/typeorm/schemas/Notification';
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
@@ -8,7 +9,7 @@ class NotificationsRepository implements INotificationsRepository {
   private ormRepository: MongoRepository<Notification>;
 
   constructor() {
-    this.ormRepository = getMongoRepository(Notification, 'mongo');
+    this.ormRepository = MongoDataSource.getMongoRepository(Notification);
   }
 
   public async create({

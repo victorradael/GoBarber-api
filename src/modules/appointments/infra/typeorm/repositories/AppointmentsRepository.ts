@@ -1,4 +1,5 @@
-import { getRepository, Repository, Raw } from 'typeorm';
+import { Repository, Raw } from 'typeorm';
+import { PostgresDataSource } from '@shared/infra/typeorm/data-sources';
 
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
@@ -10,7 +11,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
   private ormRepository: Repository<Appointment>;
 
   constructor() {
-    this.ormRepository = getRepository(Appointment);
+    this.ormRepository = PostgresDataSource.getRepository(Appointment);
   }
 
   public async findByDate(
@@ -21,7 +22,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
       where: { date, provider_id },
     });
 
-    return findAppointment;
+    return findAppointment || undefined;
   }
 
   public async findAllInMonthFromProvider({
