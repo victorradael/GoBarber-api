@@ -13,6 +13,29 @@ const upload = multer(uploadConfig.multer);
 const usersControllers = new UsersController();
 const userAvatarController = new UserAvatarController();
 
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Create a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User created
+ */
 usersRouter.post(
   '/',
   celebrate({
@@ -28,7 +51,7 @@ usersRouter.post(
 usersRouter.patch(
   '/avatar',
   ensureAuthenticated,
-  upload.single('avatar'),
+  upload.single('avatar') as any,
   userAvatarController.update
 );
 
